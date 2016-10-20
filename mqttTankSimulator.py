@@ -11,6 +11,23 @@ import threading
 mqttServer="192.168.1.10"
 port="1833"
 
+#initialize variables
+global fillRate
+global emptyRate
+global level
+global valve
+global maximum
+global minimum
+
+fillRate=11
+emptyRate=10
+level=0
+valve=1
+maximum= 10000
+minimum= 1000
+
+intervalPeriod=50.1
+
 
 
 def calculateLevel():
@@ -39,15 +56,13 @@ def on_connect(client, userdata, flags, rc):
     #subscribe to all tank messages
     
     client.subscribe("tank/+/+")
-    
-
+  
 
 # The callback for when a fillrate message is received from the server.
 def on_message_fillRate(client, userdata, msg):    print ("fillratefunction")
     global fillRate
     fillRate= int(msg.payload)
     
-
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
@@ -57,6 +72,7 @@ def on_message(client, userdata, msg):
     global level
     global valve
     print(msg.topic+" "+str(msg.payload))
+    
 #save payload to its variable this is not very robust yet!
     split= msg.topic.split("/")
     print(split[0])
@@ -69,25 +85,6 @@ def on_message(client, userdata, msg):
     print(emptyRate)
 
     
-
-
-#initialize variables i think here is the right plac
-global fillRate
-global emptyRate
-global level
-global valve
-global maximum
-global minimum
-
-fillRate=11
-emptyRate=10
-level=0
-valve=1
-maximum= 10000
-minimum= 1000
-
-intervalPeriod=50.1
-
 
 client = mqtt.Client()
 client.on_connect = on_connect
