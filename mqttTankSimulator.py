@@ -2,14 +2,17 @@
 #the level is determined by parameters fillRate and emptyRate which are read from mqtt server
 #if fillRate and emptyRate are not received, the tank will fill and empty according to defaults
 
-
-
-
-
 import paho.mqtt.client as mqtt
 #threading is needed for timer function
 import threading
 #every x seconds recalculate and send level data
+
+#edit below to suit your mqtt installation
+mqttServer="192.168.1.10"
+port="1833"
+
+
+
 def calculateLevel():
   global level
   global intervalPeriod
@@ -31,7 +34,6 @@ def calculateLevel():
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
-
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     #subscribe to all tank messages
@@ -41,8 +43,7 @@ def on_connect(client, userdata, flags, rc):
 
 
 # The callback for when a fillrate message is received from the server.
-def on_message_fillRate(client, userdata, msg):
-    print ("fillratefunction")
+def on_message_fillRate(client, userdata, msg):    print ("fillratefunction")
     global fillRate
     fillRate= int(msg.payload)
     
@@ -70,7 +71,7 @@ def on_message(client, userdata, msg):
     
 
 
-#initialize variables i think here is the right place
+#initialize variables i think here is the right plac
 global fillRate
 global emptyRate
 global level
@@ -93,7 +94,7 @@ client.on_connect = on_connect
 client.message_callback_add("#/#/fillRate", on_message_fillRate)
 client.on_message = on_message
 
-client.connect("192.168.1.10", 1883, 60)
+client.connect(mqttServer, port, 60)
 
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.
