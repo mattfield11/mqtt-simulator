@@ -19,12 +19,12 @@ global valve
 global maximum
 global minimum
 
-fillRate=11
+fillRate=20
 emptyRate=10
 level=0
 valve=1
-maximum= 10000
-minimum= 1000
+maximum= 1000
+minimum= 100
 
 intervalPeriod=0.1
 
