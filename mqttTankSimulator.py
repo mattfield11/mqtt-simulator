@@ -50,7 +50,7 @@ def on_connect(client, userdata, flags, rc):
     # reconnect then subscriptions will be renewed.
     #subscribe to all tank messages
     
-    client.subscribe("tank/+/+")
+    client.subscribe("tank/+/fillRate")
     
 
 
@@ -62,30 +62,12 @@ def on_message_fillRate(client, userdata, msg):
     
 
 
-# The callback for when a PUBLISH message is received from the server.
-def on_message(client, userdata, msg):
-    print ("standard function")
-    global fillRate
-    global emptyRate
-    global level
-    global valve
-    print(msg.topic+" "+str(msg.payload))
-#save payload to its variable this is not very robust yet!
-    split= msg.topic.split("/")
-    print(split[0])
-    print(split[2])	
-    if(split[2]=="fillRate"):
-        fillRate= int(msg.payload)
-    elif(split[2]=="emptyRate"):
-        emptyRate= int(msg.payload)
-    print(fillRate)
-    print(emptyRate)
-
-
 client = mqtt.Client()
 client.on_connect = on_connect
-client.message_callback_add("#/#/fillRate", on_message_fillRate)
-client.on_message = on_message
+#the following line is not necessary but indicates syntax to use if we need
+#to have different callbacks according to different messages received
+#client.message_callback_add("#/#/fillRate", on_message_fillRate)
+client.on_message = on_message_fillRate
 client.connect(mqttServer,mqttPort, 60)
 
 # Blocking call that processes network traffic, dispatches callbacks and
