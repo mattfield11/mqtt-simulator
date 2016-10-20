@@ -1,10 +1,7 @@
-#the code may be modified and reused but you should leave intact this header and the credits intact
-#Matthew Field, www.smart-factory.net
-
 #this simulates a level sensor on a tank and publishes the level to mosquitto mqtt server
 #the level is determined by parameters fillRate and emptyRate which are read from mqtt server
 #if fillRate and emptyRate are not received, the tank will fill and empty according to defaults
-#the code may be modified and reused but you should leave intact this header and the credits intact
+#the code may be reused but you should leave intact this header and the credits
 #Matthew Field, www.smart-factory.net
 
 
@@ -92,6 +89,7 @@ client.connect(mqttServer,mqttPort, 60)
 # handles reconnecting.
 # Other loop*() functions are available that give a threaded interface and a
 # manual interface.
+
 #call calculateLevel function
 
 calculateLevel()
