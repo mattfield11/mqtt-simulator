@@ -26,7 +26,7 @@ valve=1
 maximum= 10000
 minimum= 1000
 
-intervalPeriod=50.1
+intervalPeriod=0.1
 
 
 
